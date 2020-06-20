@@ -3,4 +3,4 @@ project(TimSort_C C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(TimSort_C main.c)
+add_executable(TimSort_C src/main.c src/timsort.c src/timsort.h)
