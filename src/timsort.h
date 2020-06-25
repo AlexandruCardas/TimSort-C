@@ -29,6 +29,6 @@ void merge(struct student[], int, int, int);
 void timsort(struct student[], int SizeArray);
 int binarySearch(struct student Dt[], int Low, int High, char Key[]);
 void linearSearch(struct student Dt[], int Size);
-void insert(struct student [], int);
+// void insert(struct student [], int);
 
 #endif // TIMSORT_C_SRC_TIMSORT_H

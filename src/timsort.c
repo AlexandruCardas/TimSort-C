@@ -174,6 +174,7 @@ void linearSearch(struct student *Dt, int Size) {
 }
 
 // Raw insertion sort for testing purposes
+/*
 void insert(struct student Dt[], int Size) {
   struct student Current;
 
@@ -189,4 +190,4 @@ void insert(struct student Dt[], int Size) {
       Dt[J] = Current;
     }
   }
-}
+}*/
