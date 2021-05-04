@@ -1,100 +1,113 @@
+/// \file Used for the function itself.
 #include "timsort.h"
 #include <string.h>
 
-// function used to fill the array with the txt files provided and assign values
-// to elements inside the struct
-void fillStruct(FILE *FileArray[], struct student Dt[]) {
-  int J = 0;
+/// \brief Function used to fill the array with the txt files provided and
+/// assign values to elements inside the struct.
+/// \param file_array
+/// \param dt
+void fill_struct(FILE **file_array, struct student *dt) {
+  int j = 0;
 
   // using fscanf, the program scans a string or numerical value and inserts it
   // into struct until the EOF
-  for (int I = 0; I < ARR; I++) {
-    while (fscanf(FileArray[I], "%s%s%d%s", Dt[J].firstName, Dt[J].surName,
-                  &Dt[J].ID, Dt[J].course) != EOF) {
-      J++;
+  for (int i = 0; i < ARR; i++) {
+    while (fscanf(file_array[i], "%s%s%d%s", dt[j].first_name, dt[j].sur_name,
+                  &dt[j].id, dt[j].course) != EOF) {
+      j++;
     }
   }
 
-  for (int K = 0; K < ARR; K++) {
-    fclose(FileArray[K]);
+  for (int k = 0; k < ARR; k++) {
+    fclose(file_array[k]);
   }
 }
 
-// function used to print the list of students
-void printList(struct student *Dt, int SizeArray) {
-  for (int I = 0; I < SizeArray; I++) {
-    printf("\n===Student number: %d===", I + 1);
+/// \brief Function used to print the list of students
+/// \param dt
+/// \param size_array
+void print_list(struct student *dt, int size_array) {
+  for (int i = 0; i < size_array; i++) {
+    printf("\n===Student number: %d===", i + 1);
     printf("\nFirstname: %s\nSurname: %s\nID: %d\nCourse: %s\n",
-           Dt[I].firstName, Dt[I].surName, Dt[I].ID, Dt[I].course);
+           dt[i].first_name, dt[i].sur_name, dt[i].id, dt[i].course);
   }
 }
 
-// modified insertion sort in order to receive 3 parameters instead of 2
-void insertionSort(struct student *Array, int Left, int Right) {
-  struct student Temp;
-  for (int I = Left + 1; I <= Right; I++) {
-    int J;
+/// \brief Modified insertion sort in order to receive 3 parameters instead of 2
+/// \param array
+/// \param left
+/// \param right
+void insertion_sort(struct student *array, int left, int right) {
+  struct student temp;
 
-    Temp = Array[I];
-    J = I - 1;
+  for (int i = left + 1; i <= right; i++) {
+    int j;
 
-    while (strcmp(Array[J].surName, Temp.surName) > 0 && J >= Left) {
-      Array[J + 1] = Array[J];
-      J--;
+    temp = array[i];
+    j = i - 1;
+
+    while (strcmp(array[j].sur_name, temp.sur_name) > 0 && j >= left) {
+      array[j + 1] = array[j];
+      j--;
     }
 
-    Array[J + 1] = Temp;
+    array[j + 1] = temp;
   }
 }
 
-// modified merge in order to accommodate for the left and right side
-void merge(struct student Array[], int L, int M, int R) {
-  // original Array is broken in two parts Left and Right Array
-  int Size1, Size2;
+/// \brief Modified merge in order to accommodate for the left and right side
+/// \param array
+/// \param l
+/// \param m
+/// \param r
+void merge(struct student array[], int l, int m, int r) {
+  // original array is broken in two parts left and right array
+  int size_1, size_2;
 
-  Size1 = M - L + 1;
-  Size2 = R - M;
+  size_1 = m - l + 1;
+  size_2 = r - m;
 
-  // used for storing Array of structs
-  struct student Left[Size1], Right[Size2];
+  // used for storing array of structs
+  struct student left[size_1], right[size_2];
 
-  for (int I = 0; I < Size1; I++) {
-    Left[I] = Array[L + I];
+  for (int i = 0; i < size_1; i++) {
+    left[i] = array[l + i];
   }
 
-  for (int I = 0; I < Size2; I++) {
-    Right[I] = Array[M + 1 + I];
+  for (int i = 0; i < size_2; i++) {
+    right[i] = array[m + 1 + i];
   }
 
-  int I = 0;
-  int J = 0;
-  int K = L;
+  int i = 0;
+  int j = 0;
+  int k = l;
 
-  // after comparing, merge those two arrays in a larger sub Array
-  while (I < Size1 && J < Size2) {
-    if ((strcmp(Left[I].surName, Right[J].surName)) < 0 ||
-        (strcmp(Left[I].surName, Right[J].surName)) == 0) {
-      Array[K] = Left[I];
-      I++;
+  // after comparing, merge those two arrays in a larger sub array
+  while (i < size_1 && j < size_2) {
+    if ((strcmp(left[i].sur_name, right[j].sur_name)) < 0 ||
+        (strcmp(left[i].sur_name, right[j].sur_name)) == 0) {
+      array[k] = left[i];
+      i++;
     } else {
-      Array[K] = Right[J];
-      J++;
+      array[k] = right[j];
+      j++;
     }
-    K++;
+    k++;
   }
 
-  // copy remaining elements of Left Array
-  while (I < Size1) {
-    Array[K] = Left[I];
-    K++;
-    I++;
+  // copy remaining elements of left array
+  while (i < size_1) {
+    array[k] = left[i];
+    k++;
+    i++;
   }
 
-  // copy remaining element of Right Array
-  while (J < Size2) {
-    Array[K] = Right[J];
-    K++;
-    J++;
+  // copy remaining element of right array
+  while (j < size_2) {
+    array[k] = right[j];
+    k++;
+    j++;
   }
 }
 
@@ -104,53 +117,53 @@ void merge(struct student Array[], int L, int M, int R) {
  * with small size array, for which insertion is very good. It sort every array
  * that is the size of.
  */
-void timsort(struct student DtMix[], int SizeArray) {
+void timsort(struct student dt_mix[], int size_array) {
   // Sort individual sub arrays of size RUN
-  for (int I = 0; I < SizeArray; I += RUN) {
-    insertionSort(
-        DtMix, I,
-        MIN((I + (RUN - 1)),
-            (SizeArray - 1))); // MIN used to get the smaller of the 2 values
+  for (int i = 0; i < size_array; i += RUN) {
+    insertion_sort(
+        dt_mix, i,
+        MIN((i + (RUN - 1)),
+            (size_array - 1))); // MIN used to get the smaller of the 2 values
   }
 
   // start merging from size of RUN, it will merge to form array sizes ^2 of
   // that such as 64, 128...
-  for (int Size = RUN; Size < SizeArray; Size = EXPO * Size) {
-    /* pick starting point of left sub array,  merge DtMix[left...left+Size-1]
-     * and DtMix[left+Size, left+2*Size-1], after every merge, we increase left
-     * by 2*Size*/
-    for (int Left = 0; Left < SizeArray; Left += EXPO * Size) {
-      // find ending point of Left sub array, Mid+1 is starting point of Right
+  for (int size = RUN; size < size_array; size = EXPO * size) {
+    /* pick starting point of left sub array,  merge dt_mix[left...left+size-1]
+     * and dt_mix[left+size, left+2*size-1], after every merge, we increase left
+     * by 2*size*/
+    for (int left = 0; left < size_array; left += EXPO * size) {
+      // find ending point of left sub array, mid+1 is starting point of right
       // sub array
-      int Mid, Right;
+      int mid, right;
 
-      Mid = Left + Size - 1;
-      Right =
-          MIN((Left + EXPO * Size - 1),
-              (SizeArray - 1)); // MIN used to get the smaller of the 2 values
+      mid = left + size - 1;
+      right =
+          MIN((left + EXPO * size - 1),
+              (size_array - 1)); // MIN used to get the smaller of the 2 values
 
-      // merge sub arrays DtMix[Left to Mid] & DtMix[Mid+1...Right]
-      merge(DtMix, Left, Mid, Right);
+      // merge sub arrays dt_mix[left to mid] & dt_mix[mid+1...right]
+      merge(dt_mix, left, mid, right);
     }
   }
 }
 
 // binary search that uses divide and conquer technique to find a value in an
 // already sorted list(case sensitive)
-int binarySearch(struct student *Dt, int Low, int High, char *Key) {
-  while (Low <= High) {
-    int Middle;
+int binary_search(struct student *dt, int low, int high, char *key) {
+  while (low <= high) {
+    int middle;
 
-    Middle = (Low + High) / 2;
+    middle = (low + high) / 2;
 
-    if (strcmp(Key, Dt[Middle].surName) == 0) {
-      return Middle;
+    if (strcmp(key, dt[middle].sur_name) == 0) {
+      return middle;
     } else {
-      if (strcmp(Key, Dt[Middle].surName) < 0) {
-        High = Middle - 1;
+      if (strcmp(key, dt[middle].sur_name) < 0) {
+        high = middle - 1;
       }
-      if (strcmp(Key, Dt[Middle].surName) > 0) {
-        Low = Middle + 1;
+      if (strcmp(key, dt[middle].sur_name) > 0) {
+        low = middle + 1;
       }
     }
   }
@@ -161,14 +174,14 @@ int binarySearch(struct student *Dt, int Low, int High, char *Key) {
 
 // linear search used as there is no need for any sorting, just match the case
 // value (Full-Time) and return the struct
-void linearSearch(struct student *Dt, int Size) {
-  char Course[SHORT] = {"Full-Time"};
+void linear_search(struct student *dt, int size) {
+  char course[SHORT] = {"Full-Time"};
 
-  for (int I = 0; I < Size; I++) {
-    if (strcmp(Dt[I].course, Course) == 0) {
-      printf("\n===Student number: %d===", I + 1);
-      printf("\nFirstname: %s\nSurname: %s\nID: %d\nCourse: %s\n",
-             Dt[I].firstName, Dt[I].surName, Dt[I].ID, Dt[I].course);
+  for (int i = 0; i < size; i++) {
+    if (strcmp(dt[i].course, course) == 0) {
+      printf("\n===Student number: %d===", i + 1);
+      printf("\nFirstname: %s\nSurname: %s\nID: %d\ncourse: %s\n",
+             dt[i].first_name, dt[i].sur_name, dt[i].id, dt[i].course);
     }
   }
 }
@@ -182,7 +195,7 @@ void insert(struct student Dt[], int Size) {
     Current = Dt[I];
     int J = I;
 
-    while (((strcmp(Dt[J - 1].surName, Current.surName)) > 0) && J > 0) {
+    while (((strcmp(Dt[J - 1].sur_name, Current.sur_name)) > 0) && J > 0) {
       Dt[J] = Dt[J - 1];
       J = J - 1;
     }

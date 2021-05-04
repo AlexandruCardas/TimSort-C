@@ -1,34 +1,32 @@
-#ifndef TIMSORT_C_SRC_TIMSORT_H
-#define TIMSORT_C_SRC_TIMSORT_H
+#ifndef _TIMSORT_H_
+#define _TIMSORT_H_
 
 #include <stdio.h>
 
-//#defines
 #define LONG 30  // long array
 #define SHORT 10 // short array
 #define ARR 4    // number of files you want to import
+
 #define ALL 42   // size of total amount of students
 #define RUN 32   // used as run size for Timsort
 #define EXPO 2   // used for ^2
 
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
-// structs
 struct student {
-  char firstName[LONG];
-  char surName[LONG];
-  int ID;
+  char first_name[LONG];
+  char sur_name[LONG];
+  int id;
   char course[SHORT];
 };
 
-// prototype
-void fillStruct(FILE *[], struct student[]);
-void printList(struct student Dt[], int SizeArray);
-void insertionSort(struct student Array[], int Left, int Right);
+void fill_struct(FILE **file_array, struct student *dt);
+void print_list(struct student dt[], int size_array);
+void insertion_sort(struct student array[], int left, int right);
 void merge(struct student[], int, int, int);
-void timsort(struct student[], int SizeArray);
-int binarySearch(struct student Dt[], int Low, int High, char Key[]);
-void linearSearch(struct student Dt[], int Size);
+void timsort(struct student[], int size_array);
+int binary_search(struct student dt[], int low, int high, char key[]);
+void linear_search(struct student dt[], int size);
 // void insert(struct student [], int);
 
-#endif // TIMSORT_C_SRC_TIMSORT_H
+#endif // _TIMSORT_H_
