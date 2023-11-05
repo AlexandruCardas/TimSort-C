@@ -2,9 +2,6 @@
 /// names. It is a modular program (uses functions), in order to sort, display
 /// and find student depending on the course and surname. The algorithm used for
 /// sorting is Timsort.
-/// Author: Alexandru Constantin Cardas
-/// Date: 19/04/2018
-/// IDE: CLion Compiler: GCC Filename: algorithm.c
 
 #include "timsort.h"
 #include <stdio.h>
@@ -12,7 +9,11 @@
 
 int main() {
   // declare variables
-  int size_array, menu, exit, check, condition;
+  int size_array;
+  int menu;
+  int exit;
+  int check;
+  int condition;
   char search_key[LONG];
   struct student dt_mix[ALL];
 
@@ -21,7 +22,7 @@ int main() {
 
   FILE *file_array[ARR];
 
-  // initialising file pointer inside the array; insert extra files addresses
+  // Initialising file pointer inside the array; insert extra files addresses
   // here
   file_array[0] = fopen("DT265A.txt", "r");
   file_array[1] = fopen("DT265B.txt", "r");
@@ -45,7 +46,6 @@ int main() {
 
     switch (menu) {
     case 1: {
-      // insert(dt_mix, size_array);
       timsort(dt_mix, size_array);
 
       printf("\n\t***Array has been sorted***\n");
@@ -75,7 +75,7 @@ int main() {
 
       printf("\nEnter the name you want: \n");
 
-      scanf("%s", search_key);
+      scanf("%10s", search_key);
 
       fflush(stdin);
 

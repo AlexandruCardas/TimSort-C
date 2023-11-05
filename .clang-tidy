@@ -1,0 +1,8 @@
+---
+Checks: 'google-*,clang-diagnostic-*,clang-analyzer-*,bugprone-*,modernize-*,llvm-*,performance-*,readability-*,linuxkernel-*'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+HeaderFileExtensions: [ 'h' ]
+ImplementationFileExtensions: [ 'c' ]
+FormatStyle: llvm
